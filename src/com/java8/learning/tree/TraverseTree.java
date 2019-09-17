@@ -29,10 +29,10 @@ public class TraverseTree {
 
 	public static void main(String[] args) {
 		System.out.println("Pre Order");
-		traversePreOrder(TreeNode.getSampleTree2());
+		traversePreOrder(TreeNode.getSampleTree());
 		System.out.println();
 		System.out.println("Post Order");
-		traversePostOrder(TreeNode.getSampleTree2());
+		traversePostOrder(TreeNode.getSampleTree());
 	}
 
 }
