@@ -51,15 +51,38 @@ public class TreeNode2<T> {
 		root.setValue(10);
 		root.setLeft(getNode(20));
 		root.setRight(getNode(30));
-		
-		root.getLeft().setLeft(getNode(40));
-		root.getLeft().setRight(getNode(50));
-		
-		root.getRight().setLeft(getNode(60));
-		root.getRight().setRight(getNode(70));
-		
-		return root;
+
+        TreeNode2<Integer>  lastLeftNode = getLastLeftNode(root);
+        lastLeftNode.setLeft(getNode(40));
+        lastLeftNode.setRight(getNode(50));
+
+        TreeNode2<Integer>  lastRightNode = getLastRightNode(root);
+        lastRightNode.setLeft(getNode(60));
+        lastRightNode.setRight(getNode(70));
+
+        lastLeftNode = getLastLeftNode(root);
+        lastLeftNode.setLeft(getNode(80));
+        lastLeftNode.setRight(getNode(90));
+
+
+        return root;
 	}
+
+	private static TreeNode2 getLastLeftNode(TreeNode2 node){
+	    if(node.isLeaf()){
+	        return node;
+        }else{
+	        return getLastLeftNode(node.left);
+        }
+    }
+
+    private static TreeNode2 getLastRightNode(TreeNode2 node){
+        if(node.isLeaf()){
+            return node;
+        }else{
+            return getLastRightNode(node.right);
+        }
+    }
 
 	private static TreeNode2<Integer> getNode(int i) {
 		return new TreeNode2<Integer>(i);
