@@ -68,7 +68,7 @@ public class TreeNode2<T> {
         return root;
 	}
 
-	private static TreeNode2 getLastLeftNode(TreeNode2 node){
+	private static <T> TreeNode2<T> getLastLeftNode(TreeNode2<T> node){
 	    if(node.isLeaf()){
 	        return node;
         }else{
@@ -76,7 +76,7 @@ public class TreeNode2<T> {
         }
     }
 
-    private static TreeNode2 getLastRightNode(TreeNode2 node){
+    private static <T> TreeNode2<T> getLastRightNode(TreeNode2<T> node){
         if(node.isLeaf()){
             return node;
         }else{
