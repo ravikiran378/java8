@@ -5,25 +5,25 @@ import java.util.List;
 
 public class TextEditorCareTaker {
 
-  private TextWindow textWindow;
+  private TextWindowOriginator textWindow;
   private List<TextWindowMemento> textWindowMementos;
  
   public TextEditorCareTaker() {
-	  this.textWindow = new TextWindow();
+	  this.textWindow = new TextWindowOriginator();
 	  this.textWindowMementos = new ArrayList<>();
   }
   
   public TextEditorCareTaker(String initalText) {
-	 this.textWindow = new TextWindow(initalText);// care taker initializes with Given one.
+	 this.textWindow = new TextWindowOriginator(initalText);// care taker initializes with Given one.
 	 this.textWindowMementos = new ArrayList<>();
   }
   
  
-	  public TextWindow getTextWindow() {
+	  public TextWindowOriginator getTextWindow() {
 		return textWindow;
 	  }
 
-	public void setTextWindow(TextWindow textWindow) {
+	public void setTextWindow(TextWindowOriginator textWindow) {
 		this.textWindow = textWindow;
 	}
 

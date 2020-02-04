@@ -1,14 +1,14 @@
 package com.design.patterns.memento;
 
-public class TextWindow {
+public class TextWindowOriginator {
 	
 	private StringBuilder text;
 	
-	public TextWindow() {
+	public TextWindowOriginator() {
 		text = new StringBuilder();
 	}
 
-	public TextWindow(String text) {
+	public TextWindowOriginator(String text) {
 		this.text = new StringBuilder(text);
 	}
 
