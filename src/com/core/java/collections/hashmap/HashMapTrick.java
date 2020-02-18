@@ -70,7 +70,7 @@ public class HashMapTrick {
 		employees.put(new Employee(2, "Vinod"), 2);
 		employees.put(new Employee(3, "Kiran"), 3);
 		
-		System.out.println(employees);
+		System.out.println(employees); // 1, 2, 3
 		
 		for(Employee emps : employees.keySet()) {
 			if(emps.getEmployeeId()==2) {
@@ -79,9 +79,20 @@ public class HashMapTrick {
 			}
 		}
 		
-		System.out.println(employees);
+		System.out.println(employees); // 1, 2, 3
 		
-		System.out.println(employees.get(new Employee(4, "Gyan")));
+		System.out.println(employees.get(new Employee(4, "Gyan"))); // null
+		
+		System.out.println(employees.get(new Employee(2, "Vinod")));// 2.
+		
+		System.out.println(employees.get(new Employee(1, "DUMMY")));
+		
+		/*Conclusion::
+		 	Hash map calculates hash while pust / get.
+		 	During for loop we are actually changing the object that is already bound to hash map.
+		 	So during print it will iterate and print. [of course from bucket of 2.]
+		 	But while searching it will not pickup as there is no item in bucket 4.
+		 */
 		
 	}
 
