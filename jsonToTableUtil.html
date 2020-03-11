@@ -1,0 +1,184 @@
+<html>
+	<head>
+		<title>
+			JSON to Table Renderer.
+		</title>
+		<script>
+			var level = 0;
+			var path  = '';
+			var fieldArr = [];
+			function renderTable() {
+
+				console.log('Great');
+				let json  = JSON.parse(document.getElementById('jsonHolder').value);
+				level = 0;  // reset for safety
+			    path  = ''; // reset for safety
+			    fieldArr = []; // reset for safety
+				traverse2(json);
+				console.log(level);
+				console.log(path);
+				console.log(fieldArr);
+				console.log(getMaxColsNeeded());
+				document.getElementById("target").innerHTML = "";
+				document.getElementById("target").innerHTML = printTable();
+			}
+
+			function printTable(){
+				let htmlTab = '';
+				let cols = getMaxColsNeeded();
+				htmlTab+='<table style="border:solid black 1px;">';
+				//for(let r =0; r<cols;r++){
+					
+					for(i in fieldArr){
+						htmlTab+='<tr>';
+						let fieldAndTypeInfo = fieldArr[i].split(' - ');
+						let fieldInfo = fieldAndTypeInfo[0];
+						let typeinfo = fieldAndTypeInfo[1];
+						console.log('fieldInfo '+fieldInfo);
+						console.log('typeinfo '+typeinfo);
+						let colArr = fieldInfo.split("\.");
+						let currFieldLen = colArr.length;
+						for(j in colArr){
+							//if(colArr[j]!=''){
+								console.log(j+' --> '+colArr[j]);
+								if(j==currFieldLen-1){
+									htmlTab+='<td colspan='+((cols-currFieldLen)+1)+' style="border:solid black 1px;">'+colArr[j]+'</td>';
+								} else {
+									htmlTab+='<td style="border:solid black 1px;">&nbsp;</td>';
+								}
+							//}
+						}
+						/*for(var k=0;k<(cols-currFieldLen);k++){
+							htmlTab+='<td style="border:solid black 1px;">&nbsp;</td>';
+						}*/
+						htmlTab+='<td style="border:solid black 1px;">'+typeinfo+'</td>';
+						htmlTab+='</tr>';
+					}
+					
+				//}
+				htmlTab+='</table>';
+				return htmlTab;
+			}
+
+			function traverse2(json){
+				
+				for(x in json){
+					if(isString(x) && isNaN(x)) {
+						if(isString(json[x])) {
+							let field = addToPath(x) + ' - String';
+							console.log(field);
+							addToFieldArr(field);
+							removeLastField();
+						} else if(isSimpleArray(json[x])) {
+							let field = addToPath(x)+ ' - Simple[]';
+							console.log(field);
+							addToFieldArr(field);
+							removeLastField();
+						} else if(isArray(json[x])) {
+							level++;
+							let field = addToPath(x)+' - Object[]';
+							console.log(field);
+							addToFieldArr(field);
+							traverse2(json[x]);
+							removeLastField();
+							level--;
+						} else if(isObject(json[x])) {
+							level++; 
+							let field = addToPath(x)+' - Object';
+							console.log(field);
+							addToFieldArr(field);
+							traverse2(json[x]);
+							removeLastField();
+							level--;
+						} else {
+							let field = addToPath(x)+' - Integer';
+							console.log(field);
+							addToFieldArr(field);
+							removeLastField();
+						}
+					} else{
+						level++; 
+						traverse2(json[x]);
+						level--;
+					}
+				}
+			}
+
+
+			function isArray(json) {
+    			return Object.prototype.toString.call(json) === '[object Array]';
+			}
+
+			function isObject(json) {
+    			return Object.prototype.toString.call(json) === '[object Object]';
+			}
+
+			function isString(x) {
+  				return Object.prototype.toString.call(x) === "[object String]"
+			}
+
+			function isSimpleArray(x){ // Array of strings Or Array of numbers.
+				let firstElement = x[0];
+				//console.log("firstElement "+ x[0]);
+				return x[0]!=null && !isObject(firstElement) && !isArray(firstElement);
+			}
+
+			function tabFactory(noOfTabs){
+				let res = '';
+				for(let i=0; i< noOfTabs; i++){
+					res+='---|';
+				}
+				return res;
+			}
+
+			function addToPath(field){
+				return path = path+'.'+field;
+			}
+
+			function removeLastField(){
+				//alert(path+'\n'+path.substring(0, path.lastIndexOf('.')));
+				return path = path.substring(0, path.lastIndexOf('.'));
+			}
+
+			function addToFieldArr(value){
+				if(!fieldArr.includes(value)){
+					fieldArr[fieldArr.length] = value;
+				}
+			}
+
+			function getMaxColsNeeded(){
+				let maxCols = 0;
+				for(i in fieldArr){
+					let dotCount = getDotCount(fieldArr[i]);
+					if(maxCols<dotCount){
+						maxCols = dotCount;
+					}
+				}
+				return maxCols+1;
+			}
+
+			function getDotCount(fieldInfo){
+				return (fieldInfo.match(/\./g) || []).length
+			}
+
+		</script>
+	</head>
+
+	<body>
+		<textarea id="jsonHolder" rows="10" cols="80">[
+{"name":"Ravi", "lName":"Moguluri","age":32}, 
+{"name":"Sreedhar", "lName":"C","age":33,
+"addressLines":[{"line1":"Line 1 Address"},{"line2":"Line 2 Address"}]
+},
+{"name":"Vinod", "lName":"C","age":29, 
+"addressLines":[{"line1":"Line 1 Address"},{"line2":"Line 2 Address"}],
+"phoneNumbers":["8939649239", "8939649269"],
+"emails":[{"gmails": [{"mailId":"ravi@gmail"}]} ,{"ymails": [{"mailId":"kiran@yahoo"}]}]
+}
+]</textarea>
+<br><button onclick="renderTable();">Render Table</button>
+<br><br>
+
+<div id="target"></div>
+	</body>
+</html>
