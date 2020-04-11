@@ -88,7 +88,7 @@ public class HashMapTrick {
 		System.out.println(employees.get(new Employee(1, "DUMMY")));
 		
 		/*Conclusion::
-		 	Hash map calculates hash while pust / get.
+		 	Hash map calculates hash while put / get.
 		 	During for loop we are actually changing the object that is already bound to hash map.
 		 	So during print it will iterate and print. [of course from bucket of 2.]
 		 	But while searching it will not pickup as there is no item in bucket 4.
