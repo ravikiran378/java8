@@ -1,4 +1,4 @@
-package com.design.patterns.visitor;
+package com.design.patterns.behavioral.visitor;
 
 public class FlatDiscountDecider implements Visitor{
 
