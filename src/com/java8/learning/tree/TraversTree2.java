@@ -1,7 +1,6 @@
 package com.java8.learning.tree;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 public class TraversTree2 {
@@ -55,7 +54,23 @@ public class TraversTree2 {
 			}
 		}
 	}
-	
+
+	public static <T> int findHeight(TreeNode2<T> node)
+	{
+		if (node == null)
+			return 0;
+		else
+		{
+			int lDepth = findHeight(node.left);
+			int rDepth = findHeight(node.right);
+
+			if (lDepth > rDepth)
+				return (lDepth + 1);
+			else
+				return (rDepth + 1);
+		}
+	}
+
 	public static void main(String[] args) {
 		TreeNode2<Integer> root = TreeNode2.getSampleTree();
 		System.out.println("traverse PreOrder...");
@@ -66,6 +81,7 @@ public class TraversTree2 {
 		traverseInOrder(root);
 		System.out.println(System.lineSeparator()+ "traverse LevelOrder...");
 		traverseLevelOrder(root);
+		System.out.println(System.lineSeparator()+ "Height : "+ findHeight(root));
 	}
 
 }
